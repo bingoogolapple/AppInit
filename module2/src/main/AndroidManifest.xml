@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sankuai.erp.component.appinitmodule2">
+
+    <application>
+        <activity
+            android:label="Module2Activity"
+            android:name=".Module2Activity" />
+        <service
+            android:name=".Module2Service"
+            android:process=":module2" />
+    </application>
+
+</manifest>

@@ -1,0 +1,7 @@
+dependencies {
+    if (project.ext.isPublish) {
+        implementation "com.sankuai.erp.component:appinit-test-module3:${rootProject.project(':module3').POM_VERSION_NAME}"
+    } else {
+        implementation project(':module3')
+    }
+}

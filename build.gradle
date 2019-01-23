@@ -1,0 +1,78 @@
+apply from: 'publish_root_config.gradle'
+
+buildscript {
+    ext.kotlin_version = '1.2.71'
+    repositories {
+        maven {
+            url uri("${System.properties['user.home']}/.gradle/local_repo")
+        }
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:3.1.3"
+        classpath 'com.novoda:bintray-release:0.8.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.sankuai.waimai.router:plugin:1.1.0"
+
+        if (project.findProject(':buildSrc') == null) {
+            classpath "com.sankuai.erp.component:appinit-plugin:1.0.0"
+        }
+    }
+}
+
+subprojects { project ->
+    def libProjectList = ['common', 'api', 'compiler', 'buildSrc']
+    if (libProjectList.contains(project.name)) {
+        return
+    }
+
+    if (project.name == 'app') {
+        apply plugin: 'com.android.application'
+    } else {
+        apply plugin: 'com.android.library'
+    }
+    // 应用 Kotlin 插件，用于测试对 Kotlin 的支持
+    apply plugin: 'kotlin-android'
+    apply plugin: 'kotlin-android-extensions'
+    apply plugin: 'kotlin-kapt'
+    // 应用 AppInit 插件。如果有用到 Kotlin，需要放到 Kotlin 插件之后
+    apply plugin: 'appinit-plugin'
+
+    // 测试多 flavor 的情况
+//    android {
+//        /**
+//         * money 场景，免费版和收费版
+//         * channel 场景，不同的市场渠道
+//         */
+//        flavorDimensions 'money', 'channel'
+//
+//        productFlavors {
+//            free {
+//                dimension 'money'
+//            }
+//            vip {
+//                dimension 'money'
+//            }
+//            baidu {
+//                dimension 'channel'
+//            }
+//            xiaomi {
+//                dimension 'channel'
+//            }
+//        }
+//    }
+
+    dependencies {
+        // android support
+        implementation 'com.android.support:appcompat-v7:28.0.0'
+        implementation 'com.android.support:support-v4:28.0.0'
+        // 用于测试对 Kotlin 的支持
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+        // 美团外卖 Router 相关，用于测试多模块
+        implementation 'com.sankuai.waimai.router:router:1.1.0'
+        annotationProcessor 'com.sankuai.waimai.router:compiler:1.1.0'
+        kapt 'com.sankuai.waimai.router:compiler:1.1.0'
+    }
+}

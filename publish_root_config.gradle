@@ -1,0 +1,78 @@
+allprojects {
+    repositories {
+        maven {
+            url uri("${System.properties['user.home']}/.gradle/local_repo")
+        }
+        jcenter()
+        google()
+    }
+
+    tasks.withType(JavaCompile) { options.encoding = "UTF-8" }
+}
+
+subprojects {
+    beforeEvaluate { project ->
+        project.ext.isPublish = project.hasProperty('publishLib')
+    }
+
+    afterEvaluate { project ->
+        ext.pluginContainer = project.getPlugins()
+        // 统一配置 Android App 和 Android Library 公共参数
+        if (ext.pluginContainer.hasPlugin("com.android.application") || ext.pluginContainer.hasPlugin("com.android.library")) {
+            android {
+                compileSdkVersion 28
+
+                defaultConfig {
+                    minSdkVersion 17
+                    //noinspection ExpiredTargetSdkVersion
+                    targetSdkVersion 23
+                    versionCode POM_VERSION_NAME.replace('.', '').toInteger()
+                    versionName POM_VERSION_NAME
+                    if (project.file('consumer-proguard-rules.pro').exists()) {
+                        consumerProguardFiles 'consumer-proguard-rules.pro'
+                    }
+                }
+
+                compileOptions {
+                    sourceCompatibility '1.8'
+                    targetCompatibility '1.8'
+                }
+            }
+        }
+
+        // 统一配置 Java、groovy、kotlin 公共参数
+        if (ext.pluginContainer.hasPlugin("java") || ext.pluginContainer.hasPlugin("groovy") || ext.pluginContainer.hasPlugin("kotlin")) {
+            sourceCompatibility = '1.8'
+            targetCompatibility = '1.8'
+        }
+
+        configure(project) {
+            if (!project.hasProperty("publishLib")) {
+                return
+            }
+            if (!getPlugins().hasPlugin("com.android.library") && !getPlugins().hasPlugin("java") && !getPlugins().hasPlugin("groovy") && !getPlugins().hasPlugin("kotlin")) {
+                return
+            }
+            if (!project.hasProperty('POM_GROUP_ID') || !project.hasProperty('POM_ARTIFACT_ID') || !project.hasProperty('POM_VERSION_NAME')) {
+                return
+            }
+
+            apply plugin: 'maven'
+            // ./gradlew :模块名称:clean :模块名称:build :模块名称:uploadArchives -PpublishLib
+            uploadArchives {
+                repositories {
+                    mavenDeployer {
+                        repository(url: uri("${System.properties['user.home']}/.gradle/local_repo"))
+                        pom.version = POM_VERSION_NAME
+                        pom.artifactId = POM_ARTIFACT_ID
+                        pom.groupId = POM_GROUP_ID
+                    }
+                }
+            }
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

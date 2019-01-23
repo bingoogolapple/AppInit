@@ -1,0 +1,2 @@
+-keep class * implements com.sankuai.erp.component.appinit.common.IAppInit
+-keep class * extends com.sankuai.erp.component.appinit.common.ChildInitTable

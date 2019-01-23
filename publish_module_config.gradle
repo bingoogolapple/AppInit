@@ -1,0 +1,33 @@
+if (!hasProperty("publishLib")) {
+    return
+}
+if (!getPlugins().hasPlugin("com.android.library") && !getPlugins().hasPlugin("java") && !getPlugins().hasPlugin("groovy") && !getPlugins().hasPlugin("kotlin")) {
+    return
+}
+if (!hasProperty('POM_GROUP_ID') || !hasProperty('POM_ARTIFACT_ID') || !hasProperty('POM_VERSION_NAME')) {
+    return
+}
+
+// ================ 发布到 JCenter START ================
+apply plugin: 'com.novoda.bintray-release'
+// ./gradlew :模块名称:clean :模块名称:build :模块名称:bintrayUpload -PpublishLib
+publish {
+    bintrayUser = getBintrayApiKeyProperty()
+    bintrayKey = getBintrayUserProperty()
+    dryRun = false
+    userOrg = getBintrayApiKeyProperty()
+    groupId = POM_GROUP_ID
+    artifactId = POM_ARTIFACT_ID
+    publishVersion = POM_VERSION_NAME
+    desc = "https://github.com/Meituan-Dianping/${rootProject.name}"
+    website = "https://github.com/Meituan-Dianping/${rootProject.name}"
+}
+
+def getBintrayUserProperty() {
+    return hasProperty('BINTRAY_APIKEY_COMPANY') ? BINTRAY_APIKEY_COMPANY : ""
+}
+
+def getBintrayApiKeyProperty() {
+    return hasProperty('BINTRAY_USER_COMPANY') ? BINTRAY_USER_COMPANY : ""
+}
+// ================ 发布到 JCenter END ================

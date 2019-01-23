@@ -1,0 +1,6 @@
+apply plugin: 'java'
+apply from: rootProject.file('publish_module_config.gradle')
+
+dependencies {
+    compileOnly 'com.google.android:android:4.1.1.4'
+}

@@ -1,0 +1,11 @@
+apply plugin: 'java'
+apply from: rootProject.file('publish_module_config.gradle')
+
+dependencies {
+    implementation 'com.squareup:javapoet:1.9.0'
+    if (project.ext.isPublish) {
+        implementation "com.sankuai.erp.component:appinit-common:${rootProject.project(':common').POM_VERSION_NAME}"
+    } else {
+        implementation project(':common')
+    }
+}

@@ -1,0 +1,8 @@
+// core
+include ':api', ':compiler', ':common'
+include ':buildSrc'
+// demo
+include ':app', ':module1', ':module2', ':module3'
+project(':app').projectDir = new File("demo/app")
+project(':module1').projectDir = new File("demo/module1")
+project(':module3').projectDir = new File("demo/module3")

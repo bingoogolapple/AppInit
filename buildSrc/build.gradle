@@ -1,0 +1,56 @@
+apply plugin: 'groovy'
+
+def isNotStandalone = project.parent != null
+def isDebugPlugin = false
+
+if (isNotStandalone) {
+    isDebugPlugin = DEBUG_APP_INIT_APT
+    apply from: rootProject.file('publish_module_config.gradle')
+} else {
+    Properties props = new Properties()
+    props.load(rootProject.file('../gradle.properties').newDataInputStream())
+    isDebugPlugin = props.getProperty('DEBUG_APP_INIT_APT')
+
+    repositories {
+        maven {
+            url uri("${System.properties['user.home']}/.gradle/local_repo")
+        }
+        jcenter()
+        google()
+        mavenCentral()
+    }
+    project.ext.isPublish = project.hasProperty('publishLib')
+}
+println "是否非独立 ${isNotStandalone}，是否调试 ${isDebugPlugin}，是否发布 ${project.ext.isPublish}"
+
+
+dependencies {
+    //gradle sdk
+    compile gradleApi()
+    //groovy sdk
+    compile localGroovy()
+
+    implementation 'com.android.tools.build:gradle:3.1.3'
+    implementation 'commons-io:commons-io:2.6'
+
+    compileOnly 'com.google.android:android:4.1.1.4'
+}
+
+if (isNotStandalone) {
+    dependencies {
+        if (Boolean.valueOf(isDebugPlugin)) {
+            println "直接依赖 common 模块"
+            implementation project.project(':common')
+        } else {
+            println "依赖发布后 common 库"
+            implementation "com.sankuai.erp.component:appinit-common:${project.project(':common').POM_VERSION_NAME}"
+        }
+    }
+} else {
+    println "依赖 common 源码"
+    sourceSets {
+        main {
+            java.srcDirs += "${project.rootDir.parent}/common/src/main/java"
+        }
+    }
+}
