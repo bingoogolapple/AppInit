@@ -102,6 +102,10 @@ abstract class BaseTransform extends Transform {
 
     @Override
     void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
+        if (!transformInvocation.isIncremental()) {
+            transformInvocation.getOutputProvider().deleteAll()
+        }
+
         updateVariant(transformInvocation)
         if (mVariant.toLowerCase().endsWith('androidtest')) {
             transformAndroidTest(transformInvocation)
