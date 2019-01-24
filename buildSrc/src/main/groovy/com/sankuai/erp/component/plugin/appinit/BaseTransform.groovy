@@ -3,7 +3,6 @@ package com.sankuai.erp.component.plugin.appinit
 import com.android.SdkConstants
 import com.android.build.api.transform.*
 import com.android.build.gradle.internal.pipeline.TransformManager
-import com.android.build.gradle.internal.pipeline.TransformTask
 import com.sankuai.erp.component.appinit.common.AppInitCommonUtils
 import com.sankuai.erp.component.appinit.common.AppInitLogger
 import groovy.io.FileType
@@ -73,8 +72,8 @@ abstract class BaseTransform extends Transform {
     }
 
     protected void updateVariant(TransformInvocation transformInvocation) {
-        TransformTask task = (TransformTask) transformInvocation.context
-        mVariant = task.getVariantName()
+        // transformInvocation.context 为 TransformTask
+        mVariant = transformInvocation.context.getVariantName()
         AppInitLogger.d "变体为 ${mVariant}"
     }
 
