@@ -16,7 +16,7 @@ buildscript {
         classpath "com.sankuai.waimai.router:plugin:1.1.0"
 
         if (project.findProject(':buildSrc') == null) {
-            classpath "com.sankuai.erp.component:appinit-plugin:1.0.0"
+            classpath "com.sankuai.erp.component:appinit-plugin:1.0.1"
         }
     }
 }
@@ -71,8 +71,8 @@ subprojects { project ->
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
         // 美团外卖 Router 相关，用于测试多模块
-        implementation 'com.sankuai.waimai.router:router:1.1.0'
-        annotationProcessor 'com.sankuai.waimai.router:compiler:1.1.0'
-        kapt 'com.sankuai.waimai.router:compiler:1.1.0'
+        implementation 'com.sankuai.waimai.router:router:1.1.2'
+        annotationProcessor 'com.sankuai.waimai.router:compiler:1.1.2'
+        kapt 'com.sankuai.waimai.router:compiler:1.1.2'
     }
 }
