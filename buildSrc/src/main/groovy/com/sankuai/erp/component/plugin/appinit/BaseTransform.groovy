@@ -3,6 +3,7 @@ package com.sankuai.erp.component.plugin.appinit
 import com.android.SdkConstants
 import com.android.build.api.transform.*
 import com.android.build.gradle.internal.pipeline.TransformManager
+import com.android.build.gradle.internal.pipeline.TransformTask
 import com.sankuai.erp.component.appinit.common.AppInitCommonUtils
 import com.sankuai.erp.component.appinit.common.AppInitLogger
 import groovy.io.FileType
@@ -72,16 +73,8 @@ abstract class BaseTransform extends Transform {
     }
 
     protected void updateVariant(TransformInvocation transformInvocation) {
-        File file = transformInvocation.outputProvider.getContentLocation('variant.jar', TransformManager.CONTENT_CLASS, TransformManager.SCOPE_FULL_PROJECT, Format.JAR)
-        String variant = file.absolutePath - mProject.buildDir.absolutePath
-        variant = variant.replaceAll("\\\\", "/") - "/intermediates/transforms/${getName()}/"
-        variant = variant.substring(0, variant.lastIndexOf('/'))
-        String[] split = variant.split('/')
-        if (split.length == 2) {
-            String buildType = split[1]
-            variant = split[0] + buildType.charAt(0).toUpperCase() + buildType.substring(1)
-        }
-        mVariant = variant
+        TransformTask task = (TransformTask) transformInvocation.context
+        mVariant = task.getVariantName()
         AppInitLogger.d "变体为 ${mVariant}"
     }
 
@@ -110,7 +103,7 @@ abstract class BaseTransform extends Transform {
     @Override
     void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
         updateVariant(transformInvocation)
-        if (mVariant.contains('androidTest')) {
+        if (mVariant.toLowerCase().endsWith('androidtest')) {
             transformAndroidTest(transformInvocation)
             return
         }
