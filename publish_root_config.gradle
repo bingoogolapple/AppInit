@@ -23,7 +23,7 @@ subprojects {
                 compileSdkVersion 28
 
                 defaultConfig {
-                    minSdkVersion 17
+                    minSdkVersion 16
                     //noinspection ExpiredTargetSdkVersion
                     targetSdkVersion 23
                     versionCode POM_VERSION_NAME.replace('.', '').toInteger()
