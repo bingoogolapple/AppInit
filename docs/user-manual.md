@@ -21,7 +21,7 @@ apply plugin: 'kotlin-kapt'
 ```
 
 * 在 AndroidManifest.xml 中配置的 Application 中添加如下代码
-imgs
+
 ```Java
 public class App extends Application {
 
@@ -96,6 +96,19 @@ public class App extends Application {
 }
 ```
 
+* 如果需要懒初始化，请在首屏 View 可见时调用`AppInitManager.get().startLazyInit();`
+
+```java
+firstVisibleView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+    @Override
+    public boolean onPreDraw() {
+        firstVisibleView.getViewTreeObserver().removeOnPreDrawListener(this);
+        AppInitManager.get().startLazyInit();
+        return true;
+    }
+});
+```
+
 ## 2、AppInit 使用
 
 编写初始化类继承 SimpleAppInit，并添加 AppInit 注解，根据具体初始化场景重写相应方法。这里以初始化 Router 举例
@@ -118,6 +131,7 @@ public class RouterInit extends SimpleAppInit {
 | description | 初始化的描述信息 | "" |
 | aheadOf | 在指定初始化项之前初始化，用于整个项目范围内重新排序。生成规则为「模块唯一标识:初始化SimpleName」 | "" |
 | onlyForDebug | 初始化是否仅在 debug 时可用 | false |
+| lazyInit | 懒初始化 | false |
 | process | 在哪个进程初始化。可选值为 Process.MAIN（主进程）、Process.ALL（所有进程）、Process.OTHER（其他进程） | Process.MAIN（主进程） |
 | priority | 模块内部范围内初始化类的优先级，值越小越先初始化 |  |
 

@@ -3,6 +3,7 @@ package com.sankuai.erp.component.appinitdemo.activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.sankuai.erp.component.appinit.api.AppInitManager;
@@ -33,5 +34,14 @@ public class MainActivity extends AppCompatActivity {
         if (bottomFragment != null) {
             getSupportFragmentManager().beginTransaction().add(R.id.fl_bottom, bottomFragment).commit();
         }
+
+        logTv.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                logTv.getViewTreeObserver().removeOnPreDrawListener(this);
+                AppInitManager.get().startLazyInit();
+                return true;
+            }
+        });
     }
 }

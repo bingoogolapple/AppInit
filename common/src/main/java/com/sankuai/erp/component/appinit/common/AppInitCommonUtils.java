@@ -59,6 +59,11 @@ public final class AppInitCommonUtils {
                         notHandleAheadOfLogSb.append(String.format("%s aheadOf 的「%s」不存在，或已经在其之后了\n", tail.toString(), tail.aheadOf));
                         continue;
                     }
+                    if (current.lazyInit && !target.lazyInit) {
+                        notHandleAheadOfLogSb.append(
+                                String.format("%s 的 lazyInit 为 true，其 aheadOf 的「%s」也必须设置 lazyInit 为 true\n", tail.toString(), tail.aheadOf));
+                        continue;
+                    }
                     // 当前结点的前一个结点设置为新的 tail
                     tail = current.pre;
                     tail.next = null;

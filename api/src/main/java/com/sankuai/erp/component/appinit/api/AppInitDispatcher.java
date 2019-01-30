@@ -5,11 +5,14 @@ import android.content.ComponentCallbacks;
 import android.content.ComponentCallbacks2;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
+import android.os.Looper;
 
 import com.sankuai.erp.component.appinit.common.AppInitCommonUtils;
 import com.sankuai.erp.component.appinit.common.AppInitItem;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -27,16 +30,28 @@ final class AppInitDispatcher {
     private BlockingQueue<AppInitItem> mAsyncOnCreateQueuedInit;
     private volatile boolean mAsyncOnCreateQueuedInitFinished;
 
+    private BlockingQueue<AppInitItem> mLazyAsyncOnCreateQueuedInit;
+    private volatile boolean mLazyAsyncOnCreateQueuedInitFinished;
+    private Queue<AppInitItem> mLazyAppInitItemList;
+
     AppInitDispatcher(List<AppInitItem> appInitItemList) {
         mAppInitItemList = appInitItemList;
+        mLazyAppInitItemList = new LinkedList<>();
         mIsMainProcess = AppInitApiUtils.isMainProcess();
+    }
+
+    /**
+     * 懒初始化列表是否不为空
+     */
+    private boolean isLazyAppInitNotEmpty() {
+        return mLazyAppInitItemList != null && !mLazyAppInitItemList.isEmpty();
     }
 
     /**
      * 初始化列表是否为空
      */
     private boolean isAppInitEmpty() {
-        return mAppInitItemList == null || mAppInitItemList.size() <= 0;
+        return mAppInitItemList == null || mAppInitItemList.isEmpty();
     }
 
     /**
@@ -50,6 +65,60 @@ final class AppInitDispatcher {
         return !dispatch;
     }
 
+    private boolean lazyOnCreate() {
+        if (isLazyAppInitNotEmpty()) {
+            if (mLazyAsyncOnCreateQueuedInit == null) {
+                mLazyAsyncOnCreateQueuedInit = new ArrayBlockingQueue<>(mLazyAppInitItemList.size());
+                AsyncTask.THREAD_POOL_EXECUTOR.execute(this::lazyAsyncOnCreate);
+            }
+
+            AppInitItem appInitItem = mLazyAppInitItemList.poll();
+            if (appInitItem != null && !isIgnoreDispatch(appInitItem)) {
+                appInitItem.time += AppInitCommonUtils.time(appInitItem.toString() + " lazyOnCreate ", () -> appInitItem.appInit.onCreate());
+                if (appInitItem.appInit.needAsyncInit()) {
+                    mLazyAsyncOnCreateQueuedInit.add(appInitItem);
+                }
+            }
+        }
+        if (isLazyAppInitNotEmpty()) {
+            return true;
+        } else {
+            mLazyAsyncOnCreateQueuedInitFinished = true;
+            return false;
+        }
+    }
+
+    private void lazyAsyncOnCreate() {
+        AppInitItem appInitItem;
+        try {
+            while (true) {
+                appInitItem = mLazyAsyncOnCreateQueuedInit.poll(CONST_100, TimeUnit.MILLISECONDS);
+                if (appInitItem == null) {
+                    if (mLazyAsyncOnCreateQueuedInitFinished) {
+                        break;
+                    } else {
+                        continue;
+                    }
+                }
+
+                lazyDispatchAsyncOnCreate(appInitItem);
+
+                if (mLazyAsyncOnCreateQueuedInitFinished && mLazyAsyncOnCreateQueuedInit.isEmpty()) {
+                    break;
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void lazyDispatchAsyncOnCreate(AppInitItem appInitItem) {
+        if (isIgnoreDispatch(appInitItem)) {
+            return;
+        }
+        AppInitCommonUtils.time(appInitItem.toString() + " lazyAsyncOnCreate ", () -> appInitItem.appInit.asyncOnCreate());
+    }
+
     /**
      * 在 {@link Application#onCreate()} 中调用
      */
@@ -60,9 +129,13 @@ final class AppInitDispatcher {
         mAsyncOnCreateQueuedInit = new ArrayBlockingQueue<>(mAppInitItemList.size());
         AsyncTask.THREAD_POOL_EXECUTOR.execute(this::asyncOnCreate);
         dispatch(appInitItem -> {
-            appInitItem.time += AppInitCommonUtils.time(appInitItem.toString() + " onCreate ", () -> appInitItem.appInit.onCreate());
-            if (appInitItem.appInit.needAsyncInit()) {
-                mAsyncOnCreateQueuedInit.add(appInitItem);
+            if (appInitItem.lazyInit) {
+                mLazyAppInitItemList.add(appInitItem);
+            } else {
+                appInitItem.time += AppInitCommonUtils.time(appInitItem.toString() + " onCreate ", () -> appInitItem.appInit.onCreate());
+                if (appInitItem.appInit.needAsyncInit()) {
+                    mAsyncOnCreateQueuedInit.add(appInitItem);
+                }
             }
         });
         mAsyncOnCreateQueuedInitFinished = true;
@@ -134,6 +207,13 @@ final class AppInitDispatcher {
      */
     void onTrimMemory(int level) {
         dispatch(appInitItem -> AppInitCommonUtils.time(appInitItem.toString() + " onTrimMemory ", () -> appInitItem.appInit.onTrimMemory(level)));
+    }
+
+    /**
+     * 延迟初始化
+     */
+    void startLazyInit() {
+        Looper.myQueue().addIdleHandler(this::lazyOnCreate);
     }
 
     private void dispatch(DispatchCallback dispatchCallback) {

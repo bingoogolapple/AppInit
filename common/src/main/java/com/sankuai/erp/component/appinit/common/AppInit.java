@@ -22,4 +22,6 @@ public @interface AppInit {
     String description() default ""; // 描述
 
     boolean onlyForDebug() default false; // 只有在 debug 时才初始化
+
+    boolean lazyInit() default false; // 懒初始化
 }

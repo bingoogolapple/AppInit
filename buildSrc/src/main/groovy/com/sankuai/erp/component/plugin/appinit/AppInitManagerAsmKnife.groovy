@@ -104,9 +104,10 @@ class AppInitManagerAsmKnife {
                     mv.visitLdcInsn(appInitItem.aheadOf)
                     mv.visitLdcInsn(appInitItem.description)
                     mv.visitLdcInsn(appInitItem.onlyForDebug.toString())
+                    mv.visitLdcInsn(appInitItem.lazyInit.toString())
                     mv.visitLdcInsn(appInitItem.moduleCoordinate)
                     mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "com/sankuai/erp/component/appinit/common/AppInitItem", "<init>",
-                            "(Lcom/sankuai/erp/component/appinit/common/IAppInit;IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+                            "(Lcom/sankuai/erp/component/appinit/common/IAppInit;IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
                             false)
                     mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "add", "(Ljava/lang/Object;)Z", true)
                     mv.visitInsn(Opcodes.POP)

@@ -8,6 +8,7 @@ import com.sankuai.erp.component.appinit.api.AppInitApiUtils;
 import com.sankuai.erp.component.appinit.api.AppInitManager;
 import com.sankuai.erp.component.appinit.api.SimpleAppInitCallback;
 import com.sankuai.erp.component.appinit.common.AppInitItem;
+import com.sankuai.erp.component.appinit.common.AppInitLogger;
 import com.sankuai.erp.component.appinit.common.ChildInitTable;
 
 import java.util.HashMap;
@@ -68,6 +69,7 @@ public class App extends MultiDexApplication {
              */
             @Override
             public void onInitFinished(boolean isMainProcess, String processName, List<ChildInitTable> childInitTableList, List<AppInitItem> appInitItemList) {
+                AppInitLogger.demo("==========================> 冷启动完成");
                 String initLogInfo = AppInitApiUtils.getInitOrderAndTimeLog(childInitTableList, appInitItemList);
                 Log.d("statisticInitInfo", initLogInfo);
                 mInitLogInfo = initLogInfo;

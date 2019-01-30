@@ -23,13 +23,5 @@ public class Module2Activity extends AppCompatActivity {
         if (bottomFragment != null) {
             getSupportFragmentManager().beginTransaction().add(R.id.fl_bottom, bottomFragment).commit();
         }
-
-        // 测试子进程初始化
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Toast.makeText(Module2Activity.this, "测试", Toast.LENGTH_SHORT).show();
-//            }
-//        }, 30000);
     }
 }

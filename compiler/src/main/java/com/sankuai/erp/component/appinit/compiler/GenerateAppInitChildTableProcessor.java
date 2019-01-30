@@ -52,7 +52,7 @@ public class GenerateAppInitChildTableProcessor extends BaseGenerateChildTablePr
     @Override
     protected void addItem(TypeElement element, MethodSpec.Builder constructorMethod) {
         AppInit appInit = element.getAnnotation(AppInit.class);
-        constructorMethod.addStatement("add(new $T($S, $L, $L, $S, $S, $S, $S, $S))",
+        constructorMethod.addStatement("add(new $T($S, $L, $L, $S, $S, $S, $S, $S, $S))",
                 getTypeName(ModuleConsts.APP_INIT_ITEM_CANONICAL_NAME),
                 element.getQualifiedName().toString(),
                 appInit.process().ordinal(),
@@ -61,6 +61,7 @@ public class GenerateAppInitChildTableProcessor extends BaseGenerateChildTablePr
                 appInit.aheadOf(),
                 appInit.description(),
                 String.valueOf(appInit.onlyForDebug()),
+                String.valueOf(appInit.lazyInit()),
                 mModuleCoordinate
         );
     }

@@ -150,4 +150,20 @@ public final class AppInitManager {
     public void onTrimMemory(int level) {
         AppInitCommonUtils.timeStr("总的 onTrimMemory ", () -> mAppInitDispatcher.onTrimMemory(level));
     }
+
+    /**
+     * 懒初始化，在首屏第一个可见 View 的 onPreDraw 回调中调用
+     *
+     * firstVisibleView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+     *     @Override
+     *     public boolean onPreDraw() {
+     *         firstVisibleView.getViewTreeObserver().removeOnPreDrawListener(this);
+     *         AppInitManager.get().startLazyInit();
+     *         return true;
+     *     }
+     * });
+     */
+    public void startLazyInit() {
+        mAppInitDispatcher.startLazyInit();
+    }
 }

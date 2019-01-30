@@ -14,6 +14,7 @@ public class AppInitItem implements Comparable<AppInitItem> {
     public String aheadOf; // 在指定项之前初始化，用于整个项目范围内重新排序
     public String description; // 描述
     public boolean onlyForDebug; // 只有在 debug 时才初始化
+    public boolean lazyInit; // 懒初始化
     public AppInitItem pre;
     public AppInitItem next;
     public String moduleInfo;
@@ -30,6 +31,7 @@ public class AppInitItem implements Comparable<AppInitItem> {
             String aheadOf,
             String description,
             String onlyForDebug,
+            String lazyInit,
             String moduleCoordinate) {
         this.appInitClassName = appInitClassName;
         this.process = Process.values()[processOrdinal];
@@ -38,6 +40,7 @@ public class AppInitItem implements Comparable<AppInitItem> {
         this.aheadOf = aheadOf;
         this.description = description;
         this.onlyForDebug = Boolean.valueOf(onlyForDebug);
+        this.lazyInit = Boolean.valueOf(lazyInit);
         this.moduleCoordinate = moduleCoordinate;
     }
 
@@ -51,8 +54,9 @@ public class AppInitItem implements Comparable<AppInitItem> {
             String aheadOf,
             String description,
             String onlyForDebug,
+            String lazyInit,
             String moduleCoordinate) {
-        this(appInit.getClass().getCanonicalName(), processOrdinal, priority, coordinate, aheadOf, description, onlyForDebug, moduleCoordinate);
+        this(appInit.getClass().getCanonicalName(), processOrdinal, priority, coordinate, aheadOf, description, onlyForDebug, lazyInit, moduleCoordinate);
         this.appInit = appInit;
     }
 
