@@ -7,7 +7,7 @@ import com.sankuai.erp.component.appinit.common.ModuleConsts
  * 「app 初始化、多模块初始化」插件
  */
 class AppInitPlugin extends BaseAptPlugin {
-    private static final String VERSION_NAME = "1.0.1"
+    private static final String VERSION_NAME = "1.0.2"
 
     @Override
     protected void handleMasterModule() {
