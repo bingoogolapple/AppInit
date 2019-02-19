@@ -1,5 +1,9 @@
 # 更新日志
 
+## Version 1.0.3 (2019-02-19)
+
+- Fix #10 兼容 rootProject 目录以数字开头
+
 ## Version 1.0.2 (2019-01-30)
 
 - Fix #6 minSdkVersion 改为 16

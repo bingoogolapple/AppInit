@@ -101,7 +101,7 @@ abstract class BaseAptPlugin implements Plugin<Project> {
         if (!AppInitCommonUtils.isEmpty(pomCoordinate)) {
             return pomCoordinate
         }
-        return getAtpModuleName()
+        return getAptModuleName()
     }
 
     private String getPomCoordinate() {
@@ -127,12 +127,15 @@ abstract class BaseAptPlugin implements Plugin<Project> {
     /**
      * 获取 apt 需要的模块名称
      */
-    private String getAtpModuleName() {
+    private String getAptModuleName() {
         String groupId = mProject.projectDir.parentFile.name
         // CI 上构建时会多出「@并发构建编号」
         if (groupId.contains('@')) {
             println("rootProject 名称 ${mProject.rootProject.name}")
             groupId = groupId.substring(0, groupId.lastIndexOf('@'))
+        }
+        if ('0123456789'.contains(groupId.substring(0, 1))) {
+            groupId = "Dummy$groupId"
         }
         return "${groupId}:${mProject.name}"
     }
@@ -145,7 +148,7 @@ abstract class BaseAptPlugin implements Plugin<Project> {
     }
 
     private void info(String msg) {
-        println "「${this.class.simpleName}」「${mProject.path}」「${getAtpModuleName()}」=> ${msg}"
+        println "「${this.class.simpleName}」「${mProject.path}」「${getAptModuleName()}」=> ${msg}"
     }
 
     static boolean hasAndroidPlugin(Project project) {
