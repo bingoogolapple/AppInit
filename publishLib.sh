@@ -1,5 +1,7 @@
 #!/bin/bash +x
 
+sed -i -e "s/\/\/ classpath 'com.novoda:bintray-release:0.8.1'/classpath 'com.novoda:bintray-release:0.8.1'/" build.gradle
+
 if [[ $# != 0 ]]; then
     RELEASE_TASK="bintrayUpload"
     echo "发布到 JCenter"
@@ -33,6 +35,8 @@ fi
 sed -i -e "s/include ':buildSrc'/\/\/include ':buildSrc'/" settings.gradle
 ./gradlew :module3:clean :module3:build :module3:uploadArchives -PpublishLib
 ./gradlew :module1:clean :module1:build :module1:uploadArchives -PpublishLib
+
+sed -i -e "s/classpath 'com.novoda:bintray-release:0.8.1'/\/\/ classpath 'com.novoda:bintray-release:0.8.1'/" build.gradle
 
 # 打包并启动 demo
 ./gradlew clean assembleDebug
