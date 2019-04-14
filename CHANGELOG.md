@@ -1,5 +1,9 @@
 # 更新日志
 
+## Version 1.0.5 (2019-04-14)
+
+- v1.0.5 修复 Windows 下 rebuild 时提示无法删除 app\build\intermediates\transforms\xxx\debug\xxx.jar
+
 ## Version 1.0.4 (2019-04-13)
 
 - v1.0.4 去掉对 commons-io:2.6 的依赖

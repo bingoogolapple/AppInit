@@ -31,7 +31,7 @@ abstract class BaseTransform extends Transform {
     protected final Set<String> mExcludeJarSet = ["com.android.support", "android.arch.", "androidx."]
     protected static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     protected final Project mProject
-    private URLClassLoader mUrlClassLoader
+    protected GroovyClassLoader mUrlClassLoader
     protected String mVariant
     protected StringBuilder mLogSb
 
@@ -126,6 +126,8 @@ abstract class BaseTransform extends Transform {
                 }
             } finally {
                 afterTransform()
+                mUrlClassLoader.clearCache()
+                mUrlClassLoader.close()
             }
         }
         mLogSb.append(scanTime).append(handleTime).append(transformTime)
@@ -148,15 +150,10 @@ abstract class BaseTransform extends Transform {
 
     protected void beforeTransform() {
         // 每个 Variant 都会执行一次 transform 方法，在 beforeTransform 时重新创建 ClassLoader，避免多个 Variant 中存在相同类时加载类异常
-        mUrlClassLoader = new URLClassLoader(((URLClassLoader) ClassLoader.getSystemClassLoader()).getURLs(), this.class.classLoader) {
-            @Override
-            protected void addURL(URL url) {
-                super.addURL(url)
-            }
-        }
+        mUrlClassLoader = new GroovyClassLoader()
         // /Applications/develop/AndroidSDK/platforms/android-28/android.jar
         String androidBootClasspath = mProject.android.bootClasspath[0].toString()
-        mUrlClassLoader.addURL(new File(androidBootClasspath).toURI().toURL())
+        mUrlClassLoader.addClasspath(androidBootClasspath)
     }
 
     protected void afterTransform() {
@@ -165,7 +162,7 @@ abstract class BaseTransform extends Transform {
     protected abstract void handle()
 
     protected void handleJarInput(JarInput jarInput, TransformInvocation transformInvocation) {
-        addJarInputToClassPath(jarInput.file)
+        mUrlClassLoader.addClasspath(jarInput.file.absolutePath)
 
         String destJarName = getDestJarName(jarInput)
         // /Users/wanghao/git/AndroidStudio/xmd/erp-components-android/appinit/demo/app/build/intermediates/transforms/AppInit/vipBaidu/debug/0.jar
@@ -178,10 +175,6 @@ abstract class BaseTransform extends Transform {
         }
 
         FileUtils.copyFile(jarInput.file, destJarFile)
-    }
-
-    protected void addJarInputToClassPath(File jarInputFile) {
-        mUrlClassLoader.addURL(jarInputFile.toURI().toURL())
     }
 
     protected void scanJar(File jarInputFile, File destJarFile) {
@@ -199,7 +192,7 @@ abstract class BaseTransform extends Transform {
     }
 
     protected void handleDirectoryInput(DirectoryInput directoryInput, TransformInvocation transformInvocation) {
-        addDirectoryInputToClassPath(directoryInput.file)
+        mUrlClassLoader.addClasspath(directoryInput.file.absolutePath)
         // /Users/wanghao/git/AndroidStudio/xmd/erp-components-android/appinit/demo/app/build/intermediates/transforms/AppInit/vipXiaomi/debug/18
         // /Users/wanghao/git/AndroidStudio/xmd/erp-components-android/appinit/demo/app/build/intermediates/transforms/AppInit/baidu/debug/18
         // /Users/wanghao/git/AndroidStudio/xmd/erp-components-android/appinit/demo/app/build/intermediates/transforms/AppInit/debug/18
@@ -214,10 +207,6 @@ abstract class BaseTransform extends Transform {
         }
 
         FileUtils.copyDirectory(directoryInput.file, destDir)
-    }
-
-    protected void addDirectoryInputToClassPath(File directoryInputFile) {
-        mUrlClassLoader.addURL(directoryInputFile.toURI().toURL())
     }
 
     protected abstract void scanClass(InputStream inputStream, File dest)
