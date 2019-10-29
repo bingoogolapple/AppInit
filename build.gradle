@@ -10,13 +10,13 @@ buildscript {
         google()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:3.1.3"
+        classpath "com.android.tools.build:gradle:3.0.1"
         // classpath 'com.novoda:bintray-release:0.8.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.sankuai.waimai.router:plugin:1.1.0"
 
         if (project.findProject(':buildSrc') == null) {
-            classpath "com.sankuai.erp.component:appinit-plugin:1.0.5"
+            classpath "com.sankuai.erp.component:appinit-plugin:1.0.6"
         }
     }
 }

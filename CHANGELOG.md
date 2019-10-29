@@ -1,5 +1,9 @@
 # 更新日志
 
+## Version 1.0.6 (2019-10-29)
+
+- v1.0.6 fix #15 兼容 gradle 4.1
+
 ## Version 1.0.5 (2019-04-14)
 
 - v1.0.5 修复 Windows 下 rebuild 时提示无法删除 app\build\intermediates\transforms\xxx\debug\xxx.jar
