@@ -4,7 +4,7 @@ apply from: rootProject.file('publish_module_config.gradle')
 dependencies {
     compileOnly 'com.android.support:support-v4:28.0.0'
     if (project.ext.isPublish) {
-        api "com.sankuai.erp.component:appinit-common:${rootProject.project(':common').POM_VERSION_NAME}"
+        api "cn.bingoogolapple:bga-appinit-common:${rootProject.project(':common').POM_VERSION_NAME}"
     } else {
         api project(':common')
     }

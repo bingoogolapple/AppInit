@@ -178,16 +178,21 @@ abstract class BaseTransform extends Transform {
     }
 
     protected void scanJar(File jarInputFile, File destJarFile) {
-        new JarFile(jarInputFile).withCloseable { JarFile jarFile ->
-            Enumeration enumeration = jarFile.entries()
-            while (enumeration.hasMoreElements()) {
-                JarEntry jarEntry = enumeration.nextElement()
-                if (shouldScanPathInternal(jarEntry.name)) {
-                    jarFile.getInputStream(jarEntry).withCloseable {
-                        scanClass(it, destJarFile)
+        try {
+            new JarFile(jarInputFile).withCloseable { JarFile jarFile ->
+                Enumeration enumeration = jarFile.entries()
+                while (enumeration.hasMoreElements()) {
+                    JarEntry jarEntry = enumeration.nextElement()
+                    if (shouldScanPathInternal(jarEntry.name)) {
+                        jarFile.getInputStream(jarEntry).withCloseable {
+                            scanClass(it, destJarFile)
+                        }
                     }
                 }
             }
+        } catch (Exception e) {
+            AppInitLogger.e "扫描 jar 包（${jarInputFile.absolutePath}）异常，请检查在此之前是否有其他插件报错"
+            e.printStackTrace();
         }
     }
 

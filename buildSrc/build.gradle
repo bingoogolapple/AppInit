@@ -42,7 +42,7 @@ if (isNotStandalone) {
             implementation project.project(':common')
         } else {
             println "依赖发布后 common 库"
-            implementation "com.sankuai.erp.component:appinit-common:${project.project(':common').POM_VERSION_NAME}"
+            implementation "cn.bingoogolapple:bga-appinit-common:${project.project(':common').POM_VERSION_NAME}"
         }
     }
 } else {

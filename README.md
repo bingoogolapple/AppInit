@@ -1,8 +1,7 @@
 # AppInit：Android 应用初始化框架
 
-[![Download](https://api.bintray.com/packages/mtdp-erp/maven/appinit-plugin/images/download.svg)](https://bintray.com/mtdp-erp/maven/appinit-plugin/_latestVersion)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Meituan-Dianping/AppInit/pulls)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://raw.githubusercontent.com/Meituan-Dianping/AppInit/master/LICENSE)
+[![Download](https://api.bintray.com/packages/bingoogolapple/maven/bga-appinit-plugin/images/download.svg)](https://bintray.com/bingoogolapple/maven/bga-appinit-plugin/_latestVersion)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/bingoogolapple/AppInit/pulls)
 
 AppInit 是一款 Android 应用初始化框架，基于组件化的设计思路，功能灵活，使用简单。
 
@@ -37,18 +36,10 @@ AppInit 用于解决美团收银 B 端 App 在业务演进过程中的实际问�
 
 [更新日志](CHANGELOG.md)
 
-## License
+## 免责声明
 
-    Copyright 2018 Meituan-Dianping
+AppInit 于 2019 年 1 月 21 日以公司名义在 Meituan-Dianping 账号下开源 ，并于 2020 年 1 月 13 日停止从 Meituan-Dianping 账号开源。
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+由于之前开源的 1 年时间内已经有开发者将 AppInit 应用到了实际项目中，后续业务项目升级 Gradle 版本后可能也需要 AppInit 升级进行兼容，且在之前开源的 1 年时间内已经大量 Fork，因此再次 Fork 一份到个人账号下进行维护。代码包名不变，为了便于后续上传 JCenter（老的名称已经被占用，无法上传），Gradle 依赖由「com.sankuai.erp.component:appinit-plugin」变为「cn.bingoogolapple:bga-appinit-plugin」
 
-       http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+![停止从 Meituan-Dianping 账号开源后的已 Fork 列表](docs/imgs/disclaimer.png)

@@ -1,6 +1,6 @@
 # Issue/提问须知
 
-在提交 issue 之前，我们应该先查询是否已经有相关的 issue 和[使用文档](https://github.com/Meituan-Dianping/AppInit/blob/master/docs/user-manual.md)。提交 issue 时，我们需要写明 issue 的原因，最好可以携带编译或运行过程的日志或者截图。issue 需要以下面的格式提出：
+在提交 issue 之前，我们应该先查询是否已经有相关的 issue 和[使用文档](https://github.com/bingoogolapple/AppInit/blob/master/docs/user-manual.md)。提交 issue 时，我们需要写明 issue 的原因，最好可以携带编译或运行过程的日志或者截图。issue 需要以下面的格式提出：
 
 ----
 

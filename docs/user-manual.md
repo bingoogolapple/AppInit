@@ -2,16 +2,16 @@
 
 ## 1、AppInit 接入
 
-* 根工程下的 build.gradle 中添加如下依赖 [![Download](https://api.bintray.com/packages/mtdp-erp/maven/appinit-plugin/images/download.svg)](https://bintray.com/mtdp-erp/maven/appinit-plugin/_latestVersion)
+* 根工程下的 build.gradle 中添加如下依赖 [![Download](https://api.bintray.com/packages/bingoogolapple/maven/bga-appinit-plugin/images/download.svg)](https://bintray.com/bingoogolapple/maven/bga-appinit-plugin/_latestVersion)
 
 ```Groovy
-classpath "com.sankuai.erp.component:appinit-plugin:最新版本号"
+classpath "cn.bingoogolapple:bga-appinit-plugin:最新版本号"
 ```
 
 * 对应的 module 下的 build.gradle 中应用插件
 
 ```Groovy
-apply plugin: 'appinit-plugin'
+apply plugin: 'bga-appinit-plugin'
 ```
 
 * 如果 module 中有用到 kotlin，需在 module 下的 build.gradle 中应用 kapt 插件
@@ -196,7 +196,7 @@ appInit {
 @Override
 public Map<String, String> getCoordinateAheadOfMap() {
     Map<String, String> coordinateAheadOfMap = new HashMap<>();
-    coordinateAheadOfMap.put("appinit:module2:Module2FiveInit", "com.sankuai.erp.component:appinit-test-module1:Module1FiveInit");
+    coordinateAheadOfMap.put("appinit:module2:Module2FiveInit", "cn.bingoogolapple:appinit-test-module1:Module1FiveInit");
     return coordinateAheadOfMap;
 }
 ```

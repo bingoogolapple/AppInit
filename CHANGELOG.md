@@ -1,5 +1,10 @@
 # 更新日志
 
+## Version 1.0.7 (2020-03-26)
+
+- 改由个人账号维护，Gradle 依赖由「com.sankuai.erp.component:appinit-plugin」变为「cn.bingoogolapple:bga-appinit-plugin」
+- v1.0.7 扫描 jar 包时捕获一下异常
+
 ## Version 1.0.6 (2019-10-29)
 
 - v1.0.6 fix #15 兼容 gradle 4.1
