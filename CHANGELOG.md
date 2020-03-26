@@ -1,5 +1,18 @@
 # 更新日志
 
+## Version 1.0.7 (2020-03-26)
+
+- 改由个人账号维护，Gradle 依赖由「com.sankuai.erp.component:appinit-plugin」变为「cn.bingoogolapple:bga-appinit-plugin」
+- v1.0.7 扫描 jar 包时捕获一下异常
+
+## Version 1.0.6 (2019-10-29)
+
+- v1.0.6 fix #15 兼容 gradle 4.1
+
+## Version 1.0.5 (2019-04-14)
+
+- v1.0.5 修复 Windows 下 rebuild 时提示无法删除 app\build\intermediates\transforms\xxx\debug\xxx.jar
+
 ## Version 1.0.4 (2019-04-13)
 
 - v1.0.4 去掉对 commons-io:2.6 的依赖

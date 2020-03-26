@@ -53,7 +53,7 @@ public class App extends MultiDexApplication {
             @Override
             public Map<String, String> getCoordinateAheadOfMap() {
                 Map<String, String> coordinateAheadOfMap = new HashMap<>();
-                coordinateAheadOfMap.put("AppInit:module2:Module2FiveInit", "com.sankuai.erp.component:appinit-test-module1:Module1FiveInit");
+                coordinateAheadOfMap.put("AppInit:module2:Module2FiveInit", "cn.bingoogolapple:appinit-test-module1:Module1FiveInit");
                 return coordinateAheadOfMap;
 //                return null;
             }

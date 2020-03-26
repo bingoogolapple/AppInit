@@ -19,15 +19,15 @@ publish {
     groupId = POM_GROUP_ID
     artifactId = POM_ARTIFACT_ID
     publishVersion = POM_VERSION_NAME
-    desc = "https://github.com/Meituan-Dianping/${rootProject.name}"
-    website = "https://github.com/Meituan-Dianping/${rootProject.name}"
+    desc = "https://github.com/bingoogolapple/${rootProject.name}"
+    website = "https://github.com/bingoogolapple/${rootProject.name}"
 }
 
 def getBintrayUserProperty() {
-    return hasProperty('BINTRAY_APIKEY_COMPANY') ? BINTRAY_APIKEY_COMPANY : ""
+    return hasProperty('BINTRAY_APIKEY') ? BINTRAY_APIKEY : ""
 }
 
 def getBintrayApiKeyProperty() {
-    return hasProperty('BINTRAY_USER_COMPANY') ? BINTRAY_USER_COMPANY : ""
+    return hasProperty('BINTRAY_USER') ? BINTRAY_USER : ""
 }
 // ================ 发布到 JCenter END ================

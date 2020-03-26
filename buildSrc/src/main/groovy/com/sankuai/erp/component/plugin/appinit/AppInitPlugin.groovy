@@ -7,7 +7,7 @@ import com.sankuai.erp.component.appinit.common.ModuleConsts
  * 「app 初始化、多模块初始化」插件
  */
 class AppInitPlugin extends BaseAptPlugin {
-    private static final String VERSION_NAME = "1.0.4"
+    private static final String VERSION_NAME = "1.0.7"
 
     @Override
     protected void handleMasterModule() {
@@ -26,12 +26,12 @@ class AppInitPlugin extends BaseAptPlugin {
 
     @Override
     protected String getApiPomArtifactId() {
-        return "appinit-api"
+        return "bga-appinit-api"
     }
 
     @Override
     protected String getCompilerPomArtifactId() {
-        return "appinit-compiler"
+        return "bga-appinit-compiler"
     }
 
     @Override

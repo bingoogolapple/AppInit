@@ -7,9 +7,9 @@ appInit {
 
     // 自定义模块间初始化的依赖关系，会覆盖通过 APP_INIT_DEPENDENCIES 配置的依赖关系
     dependency([
-            'demo:app'                                      : ['com.sankuai.erp.component:appinit-test-module1', 'AppInit:module2'],
-            'AppInit:module2'                               : 'com.sankuai.erp.component:appinit-test-module3',
-            'com.sankuai.erp.component:appinit-test-module3': 'com.sankuai.erp.component:appinit-test-module1'
+            'demo:app'                                      : ['cn.bingoogolapple:appinit-test-module1', 'AppInit:module2'],
+            'AppInit:module2'                               : 'cn.bingoogolapple:appinit-test-module3',
+            'cn.bingoogolapple:appinit-test-module3': 'cn.bingoogolapple:appinit-test-module1'
     ])
 
     // 依赖的模块或 aheadOf 指定的初始化不存在时是否中断编译，默认为 true
@@ -42,6 +42,6 @@ dependencies {
     if (Boolean.valueOf(DEBUG_APP_INIT_APT)) {
         implementation project(':module1')
     } else {
-        implementation "com.sankuai.erp.component:appinit-test-module1:${rootProject.project(':module1').POM_VERSION_NAME}"
+        implementation "cn.bingoogolapple:appinit-test-module1:${rootProject.project(':module1').POM_VERSION_NAME}"
     }
 }
