@@ -2,7 +2,7 @@
 
 ## Version 1.0.8 (2020-04-05)
 
-- 从 JCenter 迁移到 JitPack
+- 从 JCenter 迁移到 JitPack，Gradle 依赖由「cn.bingoogolapple:bga-appinit-plugin」变为「com.github.bingoogolapple.AppInit:buildSrc」
 
 ## Version 1.0.7 (2020-03-26)
 
