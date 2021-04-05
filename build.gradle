@@ -33,7 +33,7 @@ allprojects {
 // 配置 demo
 subprojects {
     afterEvaluate { project ->
-        ext.pluginContainer = it.getPlugins()
+        ext.pluginContainer = project.getPlugins()
         // 统一配置 Android App 和 Android Library 公共参数
         if (ext.pluginContainer.hasPlugin("com.android.application") || ext.pluginContainer.hasPlugin("com.android.library")) {
             android {
