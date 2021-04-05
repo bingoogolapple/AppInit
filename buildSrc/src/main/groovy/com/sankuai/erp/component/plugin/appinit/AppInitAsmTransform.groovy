@@ -19,7 +19,6 @@ class AppInitAsmTransform extends BaseAsmTransform {
     private File mAppInitManagerCtClassDest
     private File mApplicationCtClassDest
 
-    private File mAppInitLogDir
     private String mApplicationEntryName
     private String mApplicationEntryNameWithClass
     private AppInitExtension mAppInitExtension
@@ -28,11 +27,6 @@ class AppInitAsmTransform extends BaseAsmTransform {
 
     AppInitAsmTransform(Project project) {
         super(project)
-        mAppInitLogDir = new File(mProject.buildDir, 'AppInitLog')
-        if (mAppInitLogDir.exists()) {
-            mAppInitLogDir.delete()
-        }
-        mAppInitLogDir.mkdirs()
     }
 
     @Override

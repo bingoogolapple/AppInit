@@ -1,11 +1,7 @@
 apply plugin: 'com.android.library'
-apply from: rootProject.file('publish_module_config.gradle')
+apply plugin: 'com.github.dcendents.android-maven'
 
 dependencies {
     compileOnly 'com.android.support:support-v4:28.0.0'
-    if (project.ext.isPublish) {
-        api "cn.bingoogolapple:bga-appinit-common:${rootProject.project(':common').POM_VERSION_NAME}"
-    } else {
-        api project(':common')
-    }
+    api project(':common')
 }

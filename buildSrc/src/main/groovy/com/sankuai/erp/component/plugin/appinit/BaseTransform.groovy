@@ -34,9 +34,16 @@ abstract class BaseTransform extends Transform {
     protected GroovyClassLoader mUrlClassLoader
     protected String mVariant
     protected StringBuilder mLogSb
+    protected File mLogDir
 
     BaseTransform(Project project) {
         mProject = project
+
+        mLogDir = new File(mProject.buildDir, "${getName()}Log")
+        if (mLogDir.exists()) {
+            mLogDir.delete()
+        }
+        mLogDir.mkdirs()
     }
 
     /**
@@ -131,7 +138,7 @@ abstract class BaseTransform extends Transform {
             }
         }
         mLogSb.append(scanTime).append(handleTime).append(transformTime)
-        FileUtils.writeStringToFile(new File(mAppInitLogDir, "${mVariant}.log"), mLogSb.toString())
+        FileUtils.writeStringToFile(new File(mLogDir, "${mVariant}.log"), mLogSb.toString())
     }
 
     protected void scan(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {

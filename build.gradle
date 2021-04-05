@@ -1,33 +1,75 @@
-apply from: 'publish_root_config.gradle'
-
 buildscript {
     ext.kotlin_version = '1.2.71'
     repositories {
-        maven {
-            url uri("${System.properties['user.home']}/.gradle/local_repo")
-        }
+        maven { url 'https://jitpack.io' }
         jcenter()
         google()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:3.0.1"
-        classpath 'com.novoda:bintray-release:0.8.1'
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.sankuai.waimai.router:plugin:1.1.0"
+        classpath 'com.sankuai.waimai.router:plugin:1.1.0'
 
         if (project.findProject(':buildSrc') == null) {
-            classpath "cn.bingoogolapple:bga-appinit-plugin:1.0.7"
+            classpath 'com.github.bingoogolapple.AppInit:buildSrc:1.0.8'
         }
     }
 }
 
-subprojects { project ->
+allprojects {
+    repositories {
+        maven {
+            url uri("${System.properties['user.home']}/.gradle/local_repo")
+        }
+        maven { url 'https://jitpack.io' }
+        jcenter()
+        google()
+    }
+
+    tasks.withType(JavaCompile) { options.encoding = "UTF-8" }
+}
+
+// 配置 demo
+subprojects {
+    afterEvaluate { project ->
+        ext.pluginContainer = it.getPlugins()
+        // 统一配置 Android App 和 Android Library 公共参数
+        if (ext.pluginContainer.hasPlugin("com.android.application") || ext.pluginContainer.hasPlugin("com.android.library")) {
+            android {
+                compileSdkVersion 28
+
+                defaultConfig {
+                    minSdkVersion 16
+                    //noinspection ExpiredTargetSdkVersion
+                    targetSdkVersion 23
+                    versionCode 100
+                    versionName '1.0.0'
+                    if (project.file('consumer-proguard-rules.pro').exists()) {
+                        consumerProguardFiles 'consumer-proguard-rules.pro'
+                    }
+                }
+
+                compileOptions {
+                    sourceCompatibility '1.8'
+                    targetCompatibility '1.8'
+                }
+            }
+        }
+
+        // 统一配置 Java、groovy、kotlin 公共参数
+        if (ext.pluginContainer.hasPlugin("java") || ext.pluginContainer.hasPlugin("groovy") || ext.pluginContainer.hasPlugin("kotlin")) {
+            sourceCompatibility = '1.8'
+            targetCompatibility = '1.8'
+        }
+    }
+
     def libProjectList = ['common', 'api', 'compiler', 'buildSrc']
-    if (libProjectList.contains(project.name)) {
+    if (libProjectList.contains(it.name)) {
         return
     }
 
-    if (project.name == 'app') {
+    if (it.name == 'app') {
         apply plugin: 'com.android.application'
     } else {
         apply plugin: 'com.android.library'
@@ -75,4 +117,8 @@ subprojects { project ->
         annotationProcessor 'com.sankuai.waimai.router:compiler:1.1.2'
         kapt 'com.sankuai.waimai.router:compiler:1.1.2'
     }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }

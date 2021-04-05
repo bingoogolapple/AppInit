@@ -2,10 +2,10 @@
 
 ## 1、AppInit 接入
 
-* 根工程下的 build.gradle 中添加如下依赖 [![Download](https://api.bintray.com/packages/bingoogolapple/maven/bga-appinit-plugin/images/download.svg)](https://bintray.com/bingoogolapple/maven/bga-appinit-plugin/_latestVersion)
+* 根工程下的 build.gradle 中添加如下依赖 [![](https://jitpack.io/v/bingoogolapple/AppInit.svg)](https://jitpack.io/#bingoogolapple/AppInit)
 
 ```Groovy
-classpath "cn.bingoogolapple:bga-appinit-plugin:最新版本号"
+classpath "com.github.bingoogolapple.AppInit:buildSrc:最新版本号"
 ```
 
 * 对应的 module 下的 build.gradle 中应用插件

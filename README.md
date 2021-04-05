@@ -40,6 +40,6 @@ AppInit 用于解决美团收银 B 端 App 在业务演进过程中的实际问�
 
 AppInit 于 2019 年 1 月 21 日以公司名义在 Meituan-Dianping 账号下开源 ，并于 2020 年 1 月 13 日停止从 Meituan-Dianping 账号开源。
 
-由于之前开源的 1 年时间内已经有开发者将 AppInit 应用到了实际项目中，后续业务项目升级 Gradle 版本后可能也需要 AppInit 升级进行兼容，且在之前开源的 1 年时间内已经大量 Fork，因此再次 Fork 一份到个人账号下进行维护。代码包名不变，为了便于后续上传 JCenter（老的名称已经被占用，无法上传），Gradle 依赖由「com.sankuai.erp.component:appinit-plugin」变为「cn.bingoogolapple:bga-appinit-plugin」
+由于之前开源的 1 年时间内已经有开发者将 AppInit 应用到了实际项目中，后续业务项目升级 Gradle 版本后可能也需要 AppInit 升级进行兼容，且在之前开源的 1 年时间内已经大量 Fork，因此再次 Fork 一份到个人账号下进行维护。代码包名不变，为了便于后续上传 JitPack，Gradle 依赖由「com.sankuai.erp.component:appinit-plugin」变为「com.github.bingoogolapple.AppInit:buildSrc」
 
 ![停止从 Meituan-Dianping 账号开源后的已 Fork 列表](docs/imgs/disclaimer.png)

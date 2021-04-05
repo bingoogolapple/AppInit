@@ -65,9 +65,7 @@ abstract class BaseAptPlugin implements Plugin<Project> {
 
     protected abstract String getAptDebugKey()
 
-    protected abstract String getApiPomArtifactId()
-
-    protected abstract String getCompilerPomArtifactId()
+    protected abstract String getGroupId()
 
     protected abstract String getPomVersionName()
 
@@ -88,10 +86,10 @@ abstract class BaseAptPlugin implements Plugin<Project> {
             }
         } else {
             info "不调试 Apt"
-            mProject.dependencies.add('implementation', "cn.bingoogolapple:${getApiPomArtifactId()}:${getPomVersionName()}")
-            mProject.dependencies.add('annotationProcessor', "cn.bingoogolapple:${getCompilerPomArtifactId()}:${getPomVersionName()}")
+            mProject.dependencies.add('implementation', "${getGroupId()}:api:${getPomVersionName()}")
+            mProject.dependencies.add('annotationProcessor', "${getGroupId()}:compiler:${getPomVersionName()}")
             if (hasKotlinAndroidPlugin(mProject)) {
-                mProject.dependencies.add('kapt', "cn.bingoogolapple:${getCompilerPomArtifactId()}:${getPomVersionName()}")
+                mProject.dependencies.add('kapt', "${getGroupId()}:compiler:${getPomVersionName()}")
             }
         }
     }
