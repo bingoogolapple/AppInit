@@ -1,5 +1,5 @@
 apply plugin: 'java'
-apply from: rootProject.file('publish_module_config.gradle')
+apply plugin: 'com.github.dcendents.android-maven'
 
 dependencies {
     compileOnly 'com.google.android:android:4.1.1.4'

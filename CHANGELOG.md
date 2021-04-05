@@ -1,5 +1,9 @@
 # 更新日志
 
+## Version 1.0.8 (2020-04-05)
+
+- 从 JCenter 迁移到 JitPack
+
 ## Version 1.0.7 (2020-03-26)
 
 - 改由个人账号维护，Gradle 依赖由「com.sankuai.erp.component:appinit-plugin」变为「cn.bingoogolapple:bga-appinit-plugin」
