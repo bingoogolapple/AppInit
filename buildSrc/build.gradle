@@ -6,7 +6,6 @@ if (isStandalone) {
         maven {
             url uri("${System.properties['user.home']}/.gradle/local_repo")
         }
-        jcenter()
         google()
         mavenCentral()
     }
