@@ -2,14 +2,14 @@ buildscript {
     ext.kotlin_version = '1.2.71'
     repositories {
         maven { url 'https://jitpack.io' }
-        jcenter()
+        mavenCentral()
         google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.sankuai.waimai.router:plugin:1.1.0'
+        classpath 'com.github.meituan.WMRouter:plugin:1.1.2'
 
         if (project.findProject(':buildSrc') == null) {
             classpath 'com.github.bingoogolapple.AppInit:buildSrc:1.0.8'
@@ -23,7 +23,7 @@ allprojects {
             url uri("${System.properties['user.home']}/.gradle/local_repo")
         }
         maven { url 'https://jitpack.io' }
-        jcenter()
+        mavenCentral()
         google()
     }
 
@@ -42,7 +42,7 @@ subprojects {
                 defaultConfig {
                     minSdkVersion 16
                     //noinspection ExpiredTargetSdkVersion
-                    targetSdkVersion 23
+                    targetSdkVersion 24
                     versionCode 100
                     versionName '1.0.0'
                     if (project.file('consumer-proguard-rules.pro').exists()) {
@@ -113,9 +113,9 @@ subprojects {
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
         // 美团外卖 Router 相关，用于测试多模块
-        implementation 'com.sankuai.waimai.router:router:1.1.2'
-        annotationProcessor 'com.sankuai.waimai.router:compiler:1.1.2'
-        kapt 'com.sankuai.waimai.router:compiler:1.1.2'
+        implementation 'com.github.meituan.WMRouter:router:1.1.2'
+        annotationProcessor 'com.github.meituan.WMRouter:compiler:1.1.2'
+        kapt 'com.github.meituan.WMRouter:compiler:1.1.2'
     }
 }
 
